@@ -22,6 +22,65 @@ Você pode acompanhar cada passo da máquina, vendo o estado, fitas e ponteiros 
 
 ---
 
+## 🤖 O que é uma Máquina de Turing com Múltiplas Fitas?
+
+Imagine uma **Máquina de Turing tradicional** como um robô que lê e escreve símbolos em uma fita de papel (como uma fita cassete infinita), usando uma única cabeça de leitura. Ela resolve problemas, faz cálculos, mas tudo em uma fita só.
+
+Agora, pense na versão **multi-fitas** como um robô muito mais organizado e eficiente:
+em vez de apenas uma fita, ele tem **várias fitas paralelas**, cada uma com sua própria cabeça de leitura e escrita.
+É como se você tivesse vários cadernos e várias canetas, podendo anotar e ler coisas diferentes ao mesmo tempo!
+
+---
+
+### 🔥 Por que usar múltiplas fitas?
+
+* **Mais rapidez e clareza:** A máquina pode dividir o trabalho entre as fitas, guardando informações temporárias, resultados parciais e até simular memória extra, tudo sem ficar “apagando e reescrevendo” como na fita única.
+* **Organização:** Cada fita pode servir para um propósito — por exemplo, uma guarda a entrada, outra serve de área de trabalho, e outra salva a saída.
+* **Didática:** Fica muito mais fácil visualizar e entender algoritmos complexos, já que dá pra separar as tarefas nas fitas!
+
+---
+
+### 🧠 Mas é mais poderosa?
+
+> **Não!**
+> Teoricamente, uma máquina de múltiplas fitas pode ser **simulada** por uma máquina de fita única. Ou seja, as duas têm o mesmo poder computacional.
+>
+> A diferença está na praticidade: **com múltiplas fitas, alguns algoritmos ficam MUITO mais fáceis de programar, visualizar e entender** — principalmente em exemplos didáticos ou simulações, como nesse projeto.
+
+---
+
+### 📚 Como funciona na prática?
+
+* Cada fita tem sua própria “ponta” (cabeça de leitura/escrita), que pode andar para a esquerda ou direita independentemente.
+* Em cada passo, a máquina:
+
+  1. Lê o símbolo de cada fita ao mesmo tempo.
+  2. Decide (com base no estado atual e nos símbolos lidos) o que escrever em cada fita, para onde mover cada cabeça, e qual será o próximo estado.
+* Isso permite que a máquina “trabalhe em paralelo”, facilitando tarefas como buscar, marcar, copiar, contar ou comparar informações.
+
+---
+
+#### **Exemplo visual**
+
+No simulador desse projeto, você pode ver as três fitas lado a lado, cada uma com seu ponteiro e evolução a cada passo, tornando os algoritmos super visuais e fáceis de acompanhar!
+
+---
+
+Se quiser adicionar uma ilustração, pode colocar algo como:
+
+```
+Fita 1: | D | A | N | I | E | L | # | _ | _ | ...
+           ^
+Fita 2: | I | L | E | N | D | A | # | _ | _ | ...
+           ^
+Fita 3: | _ | _ | _ | _ | _ | _ | _ | _ | _ | ...
+           ^
+```
+
+A seta `^` representa a cabeça de leitura/escrita de cada fita.
+
+---
+
 ## 🔢 **Exemplo 1: Verificador de Anagramas**
 
 ### **O que faz?**
