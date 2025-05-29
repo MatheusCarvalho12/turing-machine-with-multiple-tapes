@@ -1,36 +1,169 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧮 Turing Machine Visual Simulator — Anagram Checker & RLE Compressor
 
-## Getting Started
+[![Deploy](https://img.shields.io/badge/Vercel-Live%20Demo-black?logo=vercel)](https://turing-machine-with-multiple-tapes.vercel.app)
 
-First, run the development server:
+Explore e aprenda máquinas de Turing multi-fitas com dois exemplos visuais, 100% interativos:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Verificador de Anagramas**  
+- **Compactador de Strings (RLE)**
+
+👉 **Acesse agora:** [https://turing-machine-with-multiple-tapes.vercel.app](https://turing-machine-with-multiple-tapes.vercel.app)
+
+---
+
+## ✨ Visão Geral
+
+Esse projeto simula **Máquinas de Turing com múltiplas fitas** resolvendo dois problemas clássicos:
+
+- **Verificação de anagramas**
+- **Compactação de strings usando RLE**
+
+Você pode acompanhar cada passo da máquina, vendo o estado, fitas e ponteiros em tempo real.
+
+---
+
+## 🔢 **Exemplo 1: Verificador de Anagramas**
+
+### **O que faz?**
+Verifica se duas palavras são anagramas usando três fitas, simulando uma máquina de Turing passo a passo.
+
+### **Como funciona (Lógica dos estados):**
+
+1. **Fita 1:** Primeira palavra  
+2. **Fita 2:** Segunda palavra  
+3. **Fita 3:** Temporária para guardar a letra sendo buscada  
+
+#### **Fluxo resumido:**
+
+- Para cada letra da palavra 1:
+    - Procura essa letra na palavra 2.
+    - Marca como usada (substitui por `*`) para não contar duas vezes.
+    - Se não encontrar, rejeita (não são anagramas).
+- No final, aceita só se todas as letras das duas palavras casaram.
+
+#### **Estados Principais**
+
+| Estado               | Descrição                                                                                       |
+|----------------------|------------------------------------------------------------------------------------------------|
+| `q0_inicializa`      | Reseta ponteiros                                                                               |
+| `q1_inicio_w1`       | Início do processamento                                                                        |
+| `q2_checa_fim_w1`    | Checa se terminou a fita 1                                                                     |
+| `q3_ler_letra`       | Lê letra da fita 1                                                                             |
+| `q4_salva_letra`     | Prepara busca na fita 2                                                                        |
+| `q5_inicio_w2`       | Início da busca                                                                                |
+| `q6_busca_letra`     | Busca letra na fita 2                                                                          |
+| `q7_compara_letra`   | Compara e marca letra                                                                          |
+| `q8_marcar_letra`    | Marca letra na fita 2                                                                          |
+| `q9_volta_w2`        | Reinicia busca                                                                                 |
+| `q10_fim_busca`      | Decide se achou                                                                                |
+| `q11_avanca_w1`      | Avança para próxima letra                                                                     |
+| `q12_verifica_restos`| Checa se sobrou alguma letra não usada                                                         |
+| `q13_aceita`         | São anagramas                                                                                  |
+| `q14_rejeita`        | Não são anagramas                                                                              |
+
+#### **Exemplo prático**
+
+Entrada:  
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+DANIEL#ILENDA
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Etapas:
+- Pega letra por letra de "DANIEL", procura e marca em "ILENDA".
+- Se todas casarem e não sobrar letra extra, são anagramas.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🧩 **Exemplo 2: Compactador de Strings (RLE)**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### **O que faz?**
+Compacta sequências de caracteres repetidos usando Run Length Encoding (RLE):  
+Exemplo: `AAAABBBCCDAA` → `4A3B2C1D2A`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### **Como funciona (Lógica dos estados):**
 
-## Deploy on Vercel
+1. **Fita 1:** Entrada (string original)
+2. **Fita 2:** Saída (string compactada)
+3. **Fita 3:** Temporária (contador de repetições)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### **Fluxo resumido:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Lê cada caractere da fita 1.
+- Conta quantas vezes ele aparece seguido.
+- Escreve `quantidade + letra` na fita 2.
+- Repete até acabar.
+
+#### **Estados Principais**
+
+| Estado                  | Descrição                                                  |
+|-------------------------|------------------------------------------------------------|
+| `q0_inicializa`         | Reseta ponteiro                                            |
+| `q1_verifica_fim`       | Checa se terminou                                          |
+| `q2_prepara_leitura`    | Lê letra atual                                             |
+| `q3_ler_caractere`      | Inicializa contador                                        |
+| `q4_inicializa_contador`| Coloca contador na fita 3                                  |
+| `q5_verifica_repeticao` | Checa próxima letra                                        |
+| `q6_incrementa_contador`| Incrementa contador se for igual                           |
+| `q7_finaliza_contador`  | Finaliza bloco de letras iguais                            |
+| `q8_grava_contador`     | Escreve quantidade na saída                                |
+| `q9_grava_caractere`    | Escreve caractere na saída                                 |
+| `q10_avanca_cursor`     | Avança ponteiro                                            |
+| `q11_finaliza`          | Finaliza processamento                                     |
+| `q12_saida`             | Mostra resultado                                           |
+
+#### **Exemplo prático**
+
+Entrada:  
+```
+
+AAAABBBCCDAA
+
+```
+
+Saída:  
+```
+
+4A3B2C1D2A
+
+````
+
+---
+
+## 🖥️ **Demonstração**
+
+Clique para experimentar:  
+👉 [https://turing-machine-with-multiple-tapes.vercel.app](https://turing-machine-with-multiple-tapes.vercel.app)
+
+- Visualize cada passo da máquina, estado por estado.
+- Navegue pelos passos usando os botões "Voltar passo" e "Próximo passo".
+- Veja como as fitas evoluem visualmente em tempo real.
+
+---
+
+## 🛠️ **Tecnologias**
+
+- **Next.js + React** — Aplicação serverless, rápida e responsiva
+- **TailwindCSS** — Estilização moderna e responsiva
+- **Framer Motion** — Animações suaves
+- **TypeScript** — Segurança de tipos e legibilidade
+
+---
+
+## 🤓 **Como rodar localmente**
+
+```bash
+git clone https://github.com/seu-usuario/turing-machine-with-multiple-tapes.git
+cd turing-machine-with-multiple-tapes
+npm install
+npm run dev
+````
+
+Acesse [http://localhost:3000](http://localhost:3000)
+
+## ✨ **Créditos**
+
+Projeto feito por Davi Tuma Furtado, Elias Bariani Cardoso, Matheus Carvalho de Mendonça.
+
+---
